@@ -55,21 +55,6 @@ def open_device_panel():
 
     ttk.Separator(panel_frame, orient='horizontal').pack(fill=tk.X, pady=5)
 
-    type_frame = tk.Frame(panel_frame, bg="white")
-    type_frame.pack(fill=tk.X, pady=5)
-    tk.Label(type_frame, text="Fruit/Vegetable Type:", font=("Arial", 12), bg="white").pack(side=tk.LEFT)
-    fruit_options = ["Apple", "Banana", "Carrot", "Tomato", "Potato"]
-    fruit_combo = ttk.Combobox(type_frame, values=fruit_options, state="readonly")
-    fruit_combo.set("Select")
-    fruit_combo.pack(side=tk.LEFT, padx=10)
-
-    speed_frame = tk.Frame(panel_frame, bg="white")
-    speed_frame.pack(fill=tk.X, pady=5)
-    tk.Label(speed_frame, text="Motor Speed:", font=("Arial", 12), bg="white").pack(side=tk.LEFT)
-    motor_speed = tk.Entry(speed_frame, width=10)
-    motor_speed.insert(0, "### rpm")
-    motor_speed.pack(side=tk.LEFT, padx=10)
-
     # --- Button actions with alerts ---
     def start_action():
         messagebox.showinfo("System Start", "Cleaning cycle started successfully.")
@@ -80,16 +65,58 @@ def open_device_panel():
     def emergency_stop_action():
         messagebox.showerror("EMERGENCY STOP", "Emergency stop activated! Device halted.")
 
-    btn_frame = tk.Frame(panel_frame, bg="white")
-    btn_frame.pack(pady=15)
-    tk.Button(btn_frame, text="Start", width=10, bg="green", fg="white", command=start_action).pack(side=tk.LEFT, padx=5)
-    tk.Button(btn_frame, text="Stop", width=10, bg="orange", fg="white", command=stop_action).pack(side=tk.LEFT, padx=5)
-    tk.Button(btn_frame, text="Emergency Stop", width=15, bg="red", fg="white", command=emergency_stop_action).pack(side=tk.LEFT, padx=5)
+    #TYPES OF FRUIT FRAME
+    type_frame = tk.Frame(panel_frame, bg="white")
+    type_frame.pack(fill=tk.X, pady=5)
+    tk.Label(type_frame, text="Fruit/Vegetable Type:", font=("Arial", 12), bg="white").pack(side=tk.LEFT)
+    fruit_options = ["Apple", "Banana", "Carrot", "Tomato", "Potato"]
+    fruit_combo = ttk.Combobox(type_frame, values=fruit_options, state="readonly")
+    fruit_combo.set("Select")
+    fruit_combo.pack(side=tk.LEFT, padx=10)
 
+    # SPEED CONTROL INPUT   
+    speed_frame = tk.Frame(panel_frame, bg="white")
+    speed_frame.pack(fill=tk.X, pady=5)
+    tk.Label(speed_frame, text="Motor Speed:", font=("Arial", 12), bg="white").pack(side=tk.LEFT)
+    motor_speed = tk.Entry(speed_frame, width=10)
+    motor_speed.insert(0, "### rpm")
+    motor_speed.pack(side=tk.LEFT, padx=10)
+
+    #CONVEYER FRAME
+    conveyer_frame = tk.Frame(panel_frame, bg="white")
+    conveyer_frame.pack(fill=tk.X, pady=5)
+    tk.Label(conveyer_frame, text="Conveyer:", font=("Arial", 12), bg="white").pack(side=tk.LEFT)
+    tk.Button(conveyer_frame, text="Start", width=10, font=("Segoe UI", 11, "bold"),
+              bg="#27ae60", fg="white", activebackground="#2ecc71", command=start_action).pack(side=tk.LEFT, padx=5)
+    tk.Button(conveyer_frame, text="Stop", width=10, font=("Segoe UI", 11, "bold"),
+              bg="#f39c12", fg="white", activebackground="#f1c40f", command=stop_action).pack(side=tk.LEFT, padx=5)
+    tk.Button(conveyer_frame, text="Emergency Stop", width=15, font=("Segoe UI", 11, "bold"),
+              bg="#c0392b", fg="white", activebackground="#e74c3c", command=emergency_stop_action).pack(side=tk.LEFT, padx=5)
+
+    # UV Light Frame
+    uv_light_frame = tk.Frame(panel_frame, bg="white")
+    uv_light_frame.pack(fill=tk.X, pady=5)
+    tk.Label(uv_light_frame, text="UV Light:", font=("Arial", 12), bg="white").pack(side=tk.LEFT)
+    tk.Button(uv_light_frame, text="Start", width=10, font=("Segoe UI", 11, "bold"),
+              bg="#27ae60", fg="white", activebackground="#2ecc71", command=start_action).pack(side=tk.LEFT, padx=5)
+    tk.Button(uv_light_frame, text="Stop", width=10, font=("Segoe UI", 11, "bold"),
+              bg="#f39c12", fg="white", activebackground="#f1c40f", command=stop_action).pack(side=tk.LEFT, padx=5)
+    tk.Button(uv_light_frame, text="Emergency Stop", width=15, font=("Segoe UI", 11, "bold"),
+              bg="#c0392b", fg="white", activebackground="#e74c3c", command=emergency_stop_action).pack(side=tk.LEFT, padx=5)
+
+
+    # bottom line
+    # bottom_frame = tk.Frame(panel_frame, bg="white")
+    # bottom_frame.pack(fill=tk.X, pady=(20, 0))
+    # tk.Button(bottom_frame, text="View Logs ℹ️", width=15).pack(side=tk.LEFT, padx=5)
+    # tk.Button(bottom_frame, text="Settings ⚙️", width=15).pack(side=tk.RIGHT, padx=5)
+    # Bottom Buttons
     bottom_frame = tk.Frame(panel_frame, bg="white")
-    bottom_frame.pack(fill=tk.X, pady=(20, 0))
-    tk.Button(bottom_frame, text="View Logs ℹ️", width=15).pack(side=tk.LEFT, padx=5)
-    tk.Button(bottom_frame, text="Settings ⚙️", width=15).pack(side=tk.RIGHT, padx=5)
+    bottom_frame.pack(fill=tk.X, pady=10, padx=20)
+    tk.Button(bottom_frame, text="View Logs", font=("Segoe UI", 10, "bold"), width=15,
+              bg="#bdc3c7", relief=tk.GROOVE).pack(side=tk.LEFT)
+    tk.Button(bottom_frame, text="Settings ⚙️", font=("Segoe UI", 10, "bold"), width=15,
+              bg="#95a5a6", relief=tk.GROOVE).pack(side=tk.RIGHT)
 
     panel.mainloop()
 
