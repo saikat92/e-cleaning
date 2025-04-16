@@ -69,20 +69,3 @@ const styles = StyleSheet.create({
   opTime: { fontSize: 12, color: '#555' },
 });
 
-// import { useAuth } from '../../contexts/authContext';
-// import { View, Text, StyleSheet } from 'react-native';
-
-// export default function Home() {
-//   const { user } = useAuth();
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Welcome, {user?.email?.split('@')[0]}</Text>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, padding: 20, justifyContent: 'center' },
-//   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-// });
