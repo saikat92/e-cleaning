@@ -5,19 +5,21 @@ import {
   StyleSheet, 
   TouchableOpacity,
   ScrollView,
-  Modal
+  Modal,
+  TextInput,
+  ActivityIndicator
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Slider from '@react-native-community/slider';
 
 const ManualClean = () => {
-  const [motorSpeed, setMotorSpeed] = useState(1200);
+  const [motorSpeed, setMotorSpeed] = useState('1200');
   const [motorRunning, setMotorRunning] = useState(false);
   const [uvOn, setUvOn] = useState(false);
   const [motorTime, setMotorTime] = useState(0);
   const [uvTime, setUvTime] = useState(0);
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [showConfirmStop, setShowConfirmStop] = useState(false);
+  const [rpmInputFocused, setRpmInputFocused] = useState(false);
 
   useEffect(() => {
     let motorTimer: NodeJS.Timeout;
@@ -55,12 +57,31 @@ const ManualClean = () => {
     if (motorRunning) {
       setShowConfirmStop(true);
     } else {
+      // Validate RPM input before starting
+      if (!motorSpeed || isNaN(parseInt(motorSpeed))) {
+        alert('Please enter a valid RPM value');
+        return;
+      }
+      
+      const rpm = parseInt(motorSpeed);
+      if (rpm < 10 || rpm > 1800) {
+        alert('RPM must be between 10 and 1800');
+        return;
+      }
+      
       setMotorRunning(true);
     }
   };
 
   const toggleUV = () => {
     setUvOn(!uvOn);
+  };
+
+  const handleRpmChange = (text: string) => {
+    // Only allow numbers
+    if (/^\d*$/.test(text)) {
+      setMotorSpeed(text);
+    }
   };
 
   return (
@@ -80,22 +101,24 @@ const ManualClean = () => {
         </View>
         
         <View style={styles.controlRow}>
-          <Text style={styles.controlLabel}>Motor Speed</Text>
+          <Text style={styles.controlLabel}>Motor Speed (RPM)</Text>
           <Text style={styles.rpmValue}>{motorSpeed} RPM</Text>
         </View>
         
-        {/* <Slider
-          style={styles.slider}
-          minimumValue={800}
-          maximumValue={2000}
-          step={50}
-          value={motorSpeed}
-          onValueChange={setMotorSpeed}
-          minimumTrackTintColor="#3498db"
-          maximumTrackTintColor="#ecf0f1"
-          thumbTintColor="#3498db"
-          disabled={motorRunning}
-        /> */}
+        {/* RPM Input Field */}
+        <View style={[styles.inputContainer, rpmInputFocused && styles.inputFocused]}>
+          <TextInput
+            style={styles.input}
+            value={motorSpeed}
+            onChangeText={handleRpmChange}
+            keyboardType="number-pad"
+            placeholder="10 - 1800"
+            onFocus={() => setRpmInputFocused(true)}
+            onBlur={() => setRpmInputFocused(false)}
+            editable={!motorRunning}
+          />
+          <Text style={styles.rpmUnit}>RPM</Text>
+        </View>
         
         <View style={styles.buttonRow}>
           <TouchableOpacity
@@ -360,10 +383,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#3498db',
   },
-  slider: {
-    width: '100%',
-    height: 40,
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    borderRadius: 12,
+    paddingHorizontal: 15,
     marginBottom: 20,
+    backgroundColor: '#f8f9fa',
+  },
+  inputFocused: {
+    borderColor: '#3498db',
+    backgroundColor: '#e8f4fc',
+  },
+  input: {
+    flex: 1,
+    paddingVertical: 15,
+    fontSize: 16,
+    color: '#2c3e50',
+  },
+  rpmUnit: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#7f8c8d',
   },
   buttonRow: {
     flexDirection: 'row',
